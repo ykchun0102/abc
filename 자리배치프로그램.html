@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학생 자리 배치</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 80px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .seat {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333;
+            font-size: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .board-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .board {
+            width: 200px;
+            height: 50px;
+            background-color: green;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+            font-size: 20px;
+            border-radius: 5px;
+        }
+        .countdown {
+            font-size: 80px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: red;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="board-icon">
+        <i class="fas fa-chalkboard"></i>
+    </div>
+    <h1>학생 자리 배치</h1>
+    <div class="board">칠판</div>
+    <div class="countdown" id="countdown"></div>
+    <div class="grid" id="seatGrid"></div>
+    <button onclick="startCountdown()">자리 배치 시작</button>
+    <script>
+        function startCountdown() {
+            let countdownElement = document.getElementById("countdown");
+            let timeLeft = 5;
+            countdownElement.textContent = timeLeft;
+            
+            let countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    countdownElement.textContent = timeLeft;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = "";
+                    assignSeats();
+                }
+            }, 1000);
+        }
+        
+        function assignSeats() {
+            let numbers = Array.from({ length: 25 }, (_, i) => i + 1);
+            numbers.sort(() => Math.random() - 0.5);
+            
+            let grid = document.getElementById("seatGrid");
+            grid.innerHTML = "";
+            
+            numbers.forEach(num => {
+                let seat = document.createElement("div");
+                seat.className = "seat";
+                seat.textContent = num;
+                grid.appendChild(seat);
+            });
+        }
+    </script>
+</body>
+</html>
